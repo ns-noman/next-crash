@@ -20,8 +20,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} p-6 ${geistMono.variable} antialiased`}
       >
+        <nav>Home | About</nav>
         {children}
       </body>
     </html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Leo - Table View</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <base href="/batl/">
+    
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="https://apps.batl.xyz/i/app_ui/css/Core.min.css?v=23.2.0" type="text/css">
+    <link rel="stylesheet" href="https://apps.batl.xyz/i/app_ui/css/Theme-Standard.min.css?v=23.2.0" type="text/css">
+    <link rel="stylesheet" href="https://apps.batl.xyz/i/libraries/font-apex/2.2.1/css/font-apex.min.css?v=23.2.0" type="text/css">
+    <link rel="stylesheet" href="https://apps.batl.xyz/i/themes/theme_42/1.6/css/Core.min.css?v=23.2.0" type="text/css">
+    <link rel="stylesheet" href="https://apps.batl.xyz//cafeleo_ms/128/files/theme/42/v84/17353115205384198.css" type="text/css">
+    <link rel="stylesheet" href="https://apps.batl.xyz//cafeleo_ms/128/files/static/v53/app-icon.css" type="text/css">
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://apps.batl.xyz/r/cafeleo_ms/128/files/static/v53/icons/app-icon-192.png">
+    <link rel="icon" href="https://apps.batl.xyz/r/cafeleo_ms/128/files/static/v53/icons/app-icon-32.png">
+    
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .t-Body-contentInner {
+            padding: 0;
+            flex-grow: 1;
+            width: 100%;
+        }
+        
+        /* Utility Classes */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-capitalize {
+            text-transform: capitalize;
+        }
+        
+        .text-danger {
+            color: #dc3545;
+        }
+        
+        .text-secondary {
+            color: #6c757d;
+        }
+        
+        .bold {
+            font-weight: 700;
+        }
+        
+        /* Restaurant Layout */
+        .restaurant-floor-plan {
+            width: 100%;
+            height: 700px;
+            margin: 0 auto;
+            background-color: #d9d9d9;
+            position: relative;
+            border: 10px solid transparent;
+            padding: 15px;
+            border-image: url(r/cafeleo_ms/128/files/static/v53/border.png) 30 stretch;
+            background-image: url(r/cafeleo_ms/128/files/static/v53/floor-tile.png);
+        }
+        
+        /* Table Grid Layout */
+        .table-grid {
+            display: flex;
+            height: calc(100% - 120px); /* Subtract footer height */
+        }
+        
+        .table-column {
+            float: left;
+            padding: 10px;
+        }
+        
+        .column-33 {
+            width: 33%;
+        }
+        
+        .column-17 {
+            width: 17%;
+        }
+        
+        /* Table Styles */
+        .table-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .table-chairs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+        
+        .table-chairs img {
+            width: 30px;
+        }
+        
+        .table-btn {
+            display: inline-block;
+            height: 40px;
+            width: 85px;
+            background-color: #0c4c00;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            border: 2px solid #b78400;
+            padding: 0.3em 0;
+            margin-bottom: 0.25em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .table-btn:hover {
+            background-color: #398240;
+            border-color: #af861c;
+        }
+        
+        .table-btn.large {
+            width: 45%;
+        }
+        
+        .table-btn.vertical {
+            width: 50px;
+            height: 72px;
+            padding-top: 1em;
+        }
+        
+        /* Footer Area */
+        .restaurant-footer {
+            display: flex;
+            height: 120px;
+            width: 100%;
+            border: 2px solid #000;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+        }
+        
+        .footer-section {
+            flex: 1;
+            border-right: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #A4E6A8;
+        }
+        
+        .footer-section:last-child {
+            border-right: none;
+        }
+        
+        .footer-split {
+            display: flex;
+            flex-direction: column;
+            width: 33.33%;
+        }
+        
+        .footer-split-section {
+            height: 40%;
+            border-bottom: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .footer-split-section:last-child {
+            border-bottom: none;
+            height: 60%;
+        }
+        
+        /* Special Areas */
+        .section-title {
+            font-size: 1.5em;
+            margin-top: 1rem;
+        }
+        
+        .kitchen-store-title {
+            font-size: 2em;
+        }
+        
+        /* Responsive Adjustments */
+        @media only screen and (max-width: 991px) {
+            .table-btn.vertical {
+                height: 100px;
+                width: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="t-Body-content" id="t_Body_content">
+        <div id="t_Body_content_offset" style="height: 0px;"></div>
+        <main id="main" class="t-Body-mainContent">
+            <div class="t-Body-contentInner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-12 apex-col-auto">
+                            <div class="t-Region t-Region--noPadding t-Region--removeHeader t-Region--noBorder t-Region--scrollBody t-Form--noPadding">
+                                <div class="t-Region-header">
+                                    <div class="t-Region-headerItems t-Region-headerItems--title">
+                                        <span class="t-Region-headerIcon">
+                                            <span class="t-Icon" aria-hidden="true"></span>
+                                        </span>
+                                        <h2 class="t-Region-title">POS</h2>
+                                    </div>
+                                </div>
+                                <div class="t-Region-body">
+                                    <div class="restaurant-floor-plan">
+                                        <div class="table-grid clearfix">
+                                            <!-- First Column (33%) -->
+                                            <div class="table-column column-33">
+                                                <!-- Group Table G 01 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn large" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">G 01</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 07 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 07</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 04 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 04</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 01 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=115\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1HPb4b1RwXM6jKV3lqu0zbq4nSACSCmNvNziY7JKFKTJlMRXBSC-_f0r_TGRY9c7kY4fV_z8nfaFeVl72H3lMEw\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 01</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Second Column (17%) -->
+                                            <div class="table-column column-17">
+                                                <!-- Table T 08 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 08</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 05 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 05</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 02 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=115\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1HPb4b1RwXM6jKV3lqu0zbq4nSACSCmNvNziY7JKFKTJlMRXBSC-_f0r_TGRY9c7kY4fV_z8nfaFeVl72H3lMEw\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 02</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Third Column (17%) -->
+                                            <div class="table-column column-17">
+                                                <!-- Table T 09 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 09</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 06 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=116\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1DZvOqg6_TCSx1LAymBSpWZTXC1TtrmsIdRriO2pGX_s81x7LJZuDWgwhrM_fx6nQynHdFoxC290lwa153106Ag\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 06</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Table T 03 -->
+                                                <div class="table-container">
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                    </div>
+                                                    <a class="table-btn" 
+                                                       href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=115\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1HPb4b1RwXM6jKV3lqu0zbq4nSACSCmNvNziY7JKFKTJlMRXBSC-_f0r_TGRY9c7kY4fV_z8nfaFeVl72H3lMEw\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                       type="button">T 03</a>
+                                                    <div class="table-chairs">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                        <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Fourth Column (33%) -->
+                                            <div class="table-column column-33">
+                                                <div style="display: flex; height: 100%;">
+                                                    <!-- Left Side -->
+                                                    <div style="width: 50%; padding: 5px;">
+                                                        <!-- Top Section -->
+                                                        <div style="height: 35%; position: relative;">
+                                                            <!-- Table T 10 -->
+                                                            <div class="table-container">
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                                </div>
+                                                                <a class="table-btn" 
+                                                                   href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=115\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1HPb4b1RwXM6jKV3lqu0zbq4nSACSCmNvNziY7JKFKTJlMRXBSC-_f0r_TGRY9c7kY4fV_z8nfaFeVl72H3lMEw\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                                   type="button">T 10</a>
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(-180deg);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- Bottom Section -->
+                                                        <div style="height: 65%; position: relative;">
+                                                            <!-- Table S 02 -->
+                                                            <div class="table-container" style="position: absolute; top: 30px; left: 10px;">
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                                </div>
+                                                                <a class="table-btn" 
+                                                                   href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=88\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1M_kSwRizXqkqfzrfOfD3c11xEYuXUbEU-AAIs2ScYPz_9sgxcoaOxYiZNaMcUONjBz91jECiPsE9AU1g9fDjtw\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                                   type="button">S 02</a>
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(180deg);">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <!-- Table S 01 -->
+                                                            <div class="table-container" style="position: absolute; top: 90px; left: 10px;">
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                                </div>
+                                                                <a class="table-btn" 
+                                                                   href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=86\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1bHgE4ujhwzBOUwpN4Agz0z7iQNEPy48WqucuGC9ckawYRoqdBSvjkdykgasFuICv8rhBVJSsU-3HtOVYlHLkQg\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                                   type="button">S 01</a>
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(180deg);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Right Side -->
+                                                    <div style="width: 50%; padding: 5px;">
+                                                        <!-- Top Section (Empty) -->
+                                                        <div style="height: 35%;"></div>
+                                                        
+                                                        <!-- Bottom Section -->
+                                                        <div style="height: 65%; position: relative;">
+                                                            <!-- Duplicate Table S 02 -->
+                                                            <div class="table-container" style="position: absolute; top: 30px; left: 10px;">
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                                </div>
+                                                                <a class="table-btn" 
+                                                                   href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=88\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1M_kSwRizXqkqfzrfOfD3c11xEYuXUbEU-AAIs2ScYPz_9sgxcoaOxYiZNaMcUONjBz91jECiPsE9AU1g9fDjtw\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                                   type="button">S 02</a>
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(180deg);">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <!-- Duplicate Table S 01 -->
+                                                            <div class="table-container" style="position: absolute; top: 90px; left: 10px;">
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair">
+                                                                </div>
+                                                                <a class="table-btn" 
+                                                                   href="javascript:apex.navigation.dialog('\u002Fbatl\u002Fr\u002Fcafeleo_ms\u002Fcafeleo-ms\u002Forder?p98_table_id=86\u0026p98_branch_code=\u0026p98_service_type=T\u0026clear=98\u0026session=10559592020665\u0026cs=1bHgE4ujhwzBOUwpN4Agz0z7iQNEPy48WqucuGC9ckawYRoqdBSvjkdykgasFuICv8rhBVJSsU-3HtOVYlHLkQg\u0026dialogCs=1B1I6nQzeKHzV66XhrnfkT-vzImmGx6REJkWeBwALU5M8cdQvyYbImnTdVwQRDdtccxLkUDBm9kTps-hCIDNSA',{title:'Order',height:'auto',width:'720',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard '+'','#POS');"
+                                                                   type="button">S 01</a>
+                                                                <div class="table-chairs">
+                                                                    <img src="https://apps.batl.xyz/batl/r/cafeleo_ms/128/files/static/v53/chari.png" alt="Chair" style="transform: rotate(180deg);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Footer Area -->
+                                        <div class="restaurant-footer">
+                                            <!-- Left Section (Split into 3 parts) -->
+                                            <div class="footer-section">
+                                                <div class="footer-split">
+                                                    <div class="footer-split-section">
+                                                        <p class="section-title text-danger bold">juice &amp; coffee section</p>
+                                                    </div>
+                                                    <div class="footer-split-section">
+                                                        <p class="section-title text-secondary bold">Cash counter</p>
+                                                    </div>
+                                                    <div class="footer-split-section">
+                                                        <p class="section-title text-secondary bold">Pastry Display</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Middle Section (Kitchen) -->
+                                            <div class="footer-section">
+                                                <h1 class="kitchen-store-title">KITCHEN</h1>
+                                            </div>
+                                            
+                                            <!-- Right Section (Store) -->
+                                            <div class="footer-section">
+                                                <h1 class="kitchen-store-title">STORE</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
