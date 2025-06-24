@@ -1,6 +1,9 @@
 import Image from "next/image";
 
 export default function Home() {
+  
+  console.log('Hello World!');
+  
   return (
     <main className="mt-10">
       <h1>
