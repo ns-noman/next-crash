@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
@@ -11,6 +11,10 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+// const poppins = Poppins({
+//   subsets: ["latin"],
+//   weight: "400"
+// });
 
 
 
@@ -30,6 +34,7 @@ export default function RootLayout({ children }) {
             <li><Link href="/">Home</Link></li>
             <li><Link href="/about">About</Link></li>
             <li><Link href="/blogs">Blogs</Link></li>
+            <li><Link href="/posts">Posts</Link></li>
           </ul>
         </nav>
         {children}
